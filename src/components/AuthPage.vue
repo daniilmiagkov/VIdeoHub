@@ -1,68 +1,59 @@
 <template>
   <div class="auth-page">
-    <form @submit.prevent="login">
-      <input type="text" v-model="username" placeholder="Username">
-      <input type="password" v-model="password" placeholder="Password">
-      <button type="submit">Login</button>
+    <form class="form" @submit.prevent="submitForm">
+      <input class="input" type="text" v-model="username" placeholder="Username">
+      <input  class="input" type="password" v-model="password" placeholder="Password">
+      <button class="button button-visible">Продолжить</button>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import axios from 'axios';
 import { useRouter } from 'vue-router';
+import {inject} from "vue";
 
-const username = ref("");
-const password = ref("");
-const user = {
-  username: "1",
-  password: "1",
-}
 const router = useRouter();
+const isAuthenticated = inject('isAuthenticated')
 
-const login = () => {
-  // Здесь вы можете реализовать логику аутентификации, например, отправку запроса на сервер
-  // для проверки учетных данных
-  console.log("Logging in with:", username.value, password.value);
-  if (username.value === user.username && password.value === user.password) {
-    console.log("Successful login!");
-    router.push('/home'); // Перенаправляем пользователя на домашнюю страницу
-  } else {
-    console.log("Failed login!");
-    // Возможно, здесь вы захотите отобразить сообщение об ошибке
+const submitForm = async () => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/login', { username, password });
+    const token = response.data.token;
+    localStorage.setItem('token', token);
+    console.log('Logged in successfully');
+    isAuthenticated.value = true;
+    router.push('/'); // Перенаправление на защищенную страницу после успешной аутентификации
+  } catch (error) {
+    console.error('Login failed:', error.response.data.message);
   }
 };
+
+let username = '';
+let password = '';
 </script>
+
 <style scoped lang="scss">
 .auth-page {
-  margin: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
-form {
+.form {
+  align-items: center;
   display: flex;
   flex-direction: column;
 }
 
-input {
-  margin-bottom: 10px;
-  padding: 8px;
+.input {
+  margin-bottom: 20px;
+  padding: 8px 16px;
   font-size: 16px;
+  border-radius: 10px;
+  outline: none;
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: cornflowerblue;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
 
-button:hover {
-  background-color: royalblue;
-}
 </style>

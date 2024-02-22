@@ -21,20 +21,22 @@ server.use(express.static(path.join(__dirname, '.')));
 server.use(cors()); // Разрешаем CORS для всех запросов
 
 // Простой пользовательский объект
-const users = [
-  {
-    id: 1,
-    username: '1',
-    password: '1',
-    role: 'user'
-  },
-  {
-    id: 2,
-    username: 'admin',
-    password: 'admin',
-    role: 'admin'
+const users = []
+
+fs.readdir(`${projectHub}\\backend\\users`, (err, files) => {
+  if (err) {
+    console.error('Ошибка чтения папки:', err);
+    return;
   }
-];
+  if (files.length > 0) {
+    console.log(files)
+    for (let user of files) {
+      fs.readFile(`${projectHub}\\backend\\users\\${user}`, (err, data) => {
+        users.push(JSON.parse(data))
+      })
+    }
+  }
+} )
 
 // Роут для выхода пользователя и удаления токена JWT
 server.post('/api/logout', (req, res) => {
@@ -44,10 +46,12 @@ server.post('/api/logout', (req, res) => {
 
 // Роут для аутентификации пользователя и создания токена JWT
 server.post('/api/login', (req, res) => {
+  console.log(users)
   const { username, password } = req.body;
   const user = users.find(u => u.username === username && u.password === password);
   if (user) {
     const token = jwt.sign({ username: user.username, role: user.role }, secretKey, { expiresIn: '1h' });
+    user.token = token;
     res.json({ token });
   } else {
     res.status(401).json({ message: 'Invalid username or password' });
@@ -63,6 +67,45 @@ server.get('/', function(req, res) {
   })
 })
 
+const { exec } = require('child_process');
+
+// Функция для получения метаданных видео по его имени
+function getVideoMetadata(videoName, callback) {
+  // Путь к видеофайлу
+  const videoPath = `${projectHub}\\backend\\videos\\${videoName}`;
+  
+  // Команда для получения метаданных с помощью ffmpeg
+  const command = `ffprobe -v quiet -print_format json -show_format -show_streams "${videoPath}"`;
+  
+  // Выполнение команды
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Ошибка выполнения команды: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`Ошибка: ${stderr}`);
+      return;
+    }
+    
+    // Парсинг вывода JSON
+    const metadata = JSON.parse(stdout);
+    // console.log(metadata)
+    // Вызов колбэка с полученными метаданными
+    callback(metadata);
+  });
+}
+
+// Пример использования функции
+server.get('/videos/:videoName/metadata', (req, res) => {
+  const videoName = req.params.videoName;
+  // console.log(videoName)
+  getVideoMetadata(videoName, (metadata) => {
+    res.json(metadata);
+  });
+});
+
+
 server.get('/videos', (req, res) => {
   res.set('Content-Type', 'application/json');
   fs.readdir(projectHub + '\\backend\\videos', (err, files) => {
@@ -71,9 +114,22 @@ server.get('/videos', (req, res) => {
   })
 })
 
+server.get('/api/user/:userId', (req, res) => {
+  const userId = req.params.userId;
+  // Здесь вам нужно выполнить запрос к вашей базе данных для получения данных пользователя по его ID
+  // Пример: выполнение запроса к базе данных и получение данных пользователя
+  const user = users.find(u => u.token === userId)
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).json({ message: 'Пользователь не найден' });
+  }
+});
+
+
 server.get(new RegExp('/videos/\\w+'), (req, res) => {
-  const [, video] = req.path.match(/\/database\/(\w+)/);
-  
+  const [, video] = req.path.match(/\/videos\/(\w+)/);
+  console.log(video)
   const path = `${projectHub}/backend/videos/${video}.mp4`;
   const stat = fs.statSync(path)
   const fileSize = stat.size

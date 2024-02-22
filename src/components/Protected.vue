@@ -1,4 +1,3 @@
-// views/Protected.vue
 <template>
   <div>
     <h1>Protected Page</h1>
@@ -9,13 +8,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  methods: {
-    logout() {
-      localStorage.removeItem('token');
-      this.$router.push('/');
-    }
-  }
+<script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const logout = () => {
+  localStorage.removeItem('token');
+  router.push('/');
 };
 </script>

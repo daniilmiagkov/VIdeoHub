@@ -1,26 +1,20 @@
 <template>
-  <div v-show="props.typePresentation==='grid'" class="video">
+  <div class="video">
     <h3>{{ props.src }}</h3>
     <div class="video__container">
       <video
           class="video__video"
-          v-show="props.showVideo" :id="'video_' + props.src" controls loading="lazy" volume="0.5">
-        <source :src="`http://localhost:3000/videos/${props.src}`" type="video/mp4">
+          v-show="true" id="video" controls loading="lazy" volume="0.5" :key="_src">
+        <source :src="_src" type="video/mp4">
       </video>
-
-      <canvas
-          v-show="!props.showVideo"
-          :id="'canvas_' + props.src"
-          class="video__canvas"
-          @click="changePlay"
-      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {defineProps, onMounted, ref} from "vue";
+import {defineProps, onMounted, ref, watch} from "vue";
 const play = ref();
+const _src = ref()
 let video;
 let ratio_w;
 let ratio_h;
@@ -40,9 +34,18 @@ function changePlay() {
     play.value = true;
   }
 }
+watch(() => props.src, () => {
+  console.log(props.src)
+  video = document.getElementById("video") as HTMLVideoElement;
 
+  /*
+    video.pause();
+  */
+  _src.value = `http://localhost:3000/videos/${props.src}`
+})
 onMounted(() => {
-  video = document.getElementById("video_" + props.src) as HTMLVideoElement;
+  // video = document.getElementById("video") as HTMLVideoElement;
+/*
   video.addEventListener("loadedmetadata", () => {
     canvas = document.getElementById('canvas_' + props.src) as HTMLCanvasElement;
     const ctx = canvas.getContext("2d");
@@ -56,27 +59,28 @@ onMounted(() => {
     };
 
     drawFrame();
-    window.addEventListener('resize', ()=> {
-      const w = document.getElementById('videos').clientWidth;
-      let a;
-      let i;
-      for (i = 1; i <= 6; i++) {
-        if ((i - 1) * 20 + 400 * (i) <= w) {
-          try {
-            canvas.width = (w - (i - 1) * 20) / i
-            canvas.height = ratio_h * ((w - (i - 1) * 20) / i)
-            console.log(canvas.width, canvas.height,)
-          }
-          catch (e) {
-          }
-        }
-        else {
-          return;
-        }
-      }
-    })
-  });
 
+  });
+*/
+  /*window.addEventListener('resize', ()=> {
+        const w = document.getElementById('videos').clientWidth;
+        let a;
+        let i;
+        for (i = 1; i <= 6; i++) {
+          if ((i - 1) * 20 + 400 * (i) <= w) {
+            try {
+              canvas.width = (w - (i - 1) * 20) / i
+              canvas.height = ratio_h * ((w - (i - 1) * 20) / i)
+              console.log(canvas.width, canvas.height,)
+            }
+            catch (e) {
+            }
+          }
+          else {
+            return;
+          }
+        }
+      })*/
 /*  const video = document.createElement("video");
   if (!video.canPlayType) {
     console.log("Ваш браузер не поддерживает частичную загрузку видео. Пожалуйста, используйте другой браузер.");
@@ -91,18 +95,12 @@ onMounted(() => {
 <style scoped lang="scss">
 .video {
   width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid black;
-  flex-direction: column;
   border-radius: 20px;
 }
 
 .video__video {
   width: 100%;
-  height: 100%;
+  //height: 100%;
   border-radius: 18px;
 }
 
@@ -112,7 +110,7 @@ onMounted(() => {
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  //height: 100%;
 }
 
 .video__canvas {

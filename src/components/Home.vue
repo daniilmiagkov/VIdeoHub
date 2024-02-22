@@ -1,40 +1,41 @@
 <template>
-  <div>
-    <h1>Home Page</h1>
-    <form @submit.prevent="submitForm">
-      <input type="text" v-model="username" placeholder="Username">
-      <input type="password" v-model="password" placeholder="Password">
-      <button>Login</button>
-    </form>
-<Videos></Videos>
+  <div class="main-page">
+    <main class="main-content">
+      <section class="activity">
+        <h2 class="title">Сфера деятельности</h2>
+        <p class="main-content__content">
+          Программно-аппаратный комплекс «HiRus VideoMedBox Solution», который позволит создавать «умные» операционные и транслировать медицинские операции в любую точку мира в реальном времени в высоком разрешении. В зависимости от задачи, данные могут обрабатываться и сохраняться на сервере. Кроме того, система микрофонов и ПО распознавания голосовых команд от врачей (хирургов) во время операции позволит голосом управлять функционалом камер (зум) и переключением между источниками для вывода на монитор наиболее важного изображения.
+        </p>
+      </section>
+    </main>
   </div>
 </template>
 
-<script>
-import axios from 'axios';
-import Videos from "./Videos.vue";
-import Video from "./Video.vue";
+<script setup lang="ts">
 
-export default {
-  components: {Video, Videos},
-  data() {
-    return {
-      username: '',
-      password: ''
-    };
-  },
-  methods: {
-    async submitForm() {
-      try {
-        const response = await axios.post('http://localhost:3000/api/login', { username: this.username, password: this.password });
-        const token = response.data.token;
-        localStorage.setItem('token', token);
-        console.log('Logged in successfully');
-        this.$router.push('/protected'); // Перенаправление на защищенную страницу после успешной аутентификации
-      } catch (error) {
-        console.error('Login failed:', error.response.data.message);
-      }
-    }
-  }
-};
+
 </script>
+
+<style scoped lang="scss">
+.main-page {
+  //height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.main-content__content {
+  text-align: justify;
+}
+
+</style>

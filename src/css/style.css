@@ -1,5 +1,5 @@
 :root {
-  font-family: Helvetica, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Montserrat", sans-serif;
   color-scheme: light dark;
   /*https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme*/
   font-synthesis: none;
@@ -12,16 +12,36 @@
   width: 0;
 }
 
-.button {
-  width: 100px;
-  cursor: pointer;
-  height: 40px;
-  background-color: white;
+
+
+body {
+
 }
 
-* {
+*{
   box-sizing: border-box;
   border: none;
   margin: 0;
   padding: 0;
+}
+
+.button {
+  background-color:white;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.button-visible {
+  cursor: pointer;
+}
+
+.button-hide {
+  cursor: default;
+}
+
+.button:hover {
+  background-color: rgba(194, 194, 194, 0.44);
 }

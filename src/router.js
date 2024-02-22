@@ -4,7 +4,9 @@ import Home from './components/Home.vue';
 import UserPage from './components/UserPage.vue';
 import AdminPage from './components/AdminPage.vue';
 import Protected from './components/Protected.vue';
+import Videos from './components/Videos.vue';
 import { jwtDecode } from 'jwt-decode';
+import AuthPage from "./components/AuthPage.vue";
 
 const routes = [
   {
@@ -25,11 +27,16 @@ const routes = [
     meta: { requiresAuth: true, role: 'admin' }
   },
   {
-    path: '/protected',
-    name: 'Protected',
-    component: Protected
-    // Маршрут '/protected' не требует авторизации, так как доступен для всех зарегистрированных пользователей
-  }
+    path: '/auth',
+    name: 'AuthPage',
+    component: AuthPage
+  },
+  {
+    path: '/videos',
+    name: 'Videos',
+    component: Videos,
+    meta: { requiresAuth: true, role: 'all' }
+  },
 ];
 
 const router = createRouter({
@@ -47,10 +54,10 @@ router.beforeEach((to, from, next) => {
     } else {
       const decodedToken = jwtDecode(token);
       const userRole = decodedToken.role;
-      if (to.matched.some(record => record.meta.role === userRole)) {
+      if (to.matched.some(record => record.meta.role === userRole || record.meta.role === 'all')) {
         next();
       } else {
-        next({ name: 'Protected' }); // Или любой другой маршрут, на который вы хотите перенаправить пользователя
+        next({ name: 'Home' }); // Или любой другой маршрут, на который вы хотите перенаправить пользователя
       }
     }
   } else {
