@@ -24,6 +24,7 @@
     "nodemon": "^3.0.3",
     "scss": "^0.2.4",
     "vue": "^3.3.11",
+    "vue-core-video-player": "^0.2.0",
     "vue-router": "^4.2.5",
     "vue-video-player": "^6.0.0"
   },
