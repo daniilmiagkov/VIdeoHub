@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-    <header class="header">
+    <RtspVideo></RtspVideo>
+<!--    <header class="header">
       <button class="button button-visible menu header__button" @click="toggleMenu">
         Меню
-        <nav class="sidebar" :class="{ 'sidebar--open': isMenuOpen }" ref="sidebar">
+        <nav class="sidebar" :class="{ 'sidebar&#45;&#45;open': isMenuOpen }" ref="sidebar">
           <ul class="sidebar__menu">
             <li><router-link to="/">Главная</router-link></li>
             <li v-if="isAuthenticated"><router-link to="/user">Пользователь</router-link></li>
@@ -15,7 +16,7 @@
       </button>
       <h1 class="header__title">ООО «ХайРус»</h1>
       <button v-if="!isAuthenticated" class="button button-visible header__button" @click="router.push('/auth')">Вход</button>
-      <button v-if="isAuthenticated" class="button button-visible header__button" @click="logout">Выход</button> <!-- Кнопка для выхода -->
+      <button v-if="isAuthenticated" class="button button-visible header__button" @click="logout">Выход</button> &lt;!&ndash; Кнопка для выхода &ndash;&gt;
 
     </header>
     <router-view class="main"/>
@@ -26,9 +27,9 @@
           <li>E-mail: info@hirus.life</li>
           <li>Сайт: <a href="https://hirus.life/" target="_blank">hirus.life</a></li>
         </ul>
-        <!-- Здесь может быть код для кнопок "Поделиться" в социальных сетях -->
+        &lt;!&ndash; Здесь может быть код для кнопок "Поделиться" в социальных сетях &ndash;&gt;
       </div>
-    </footer>
+    </footer>-->
   </div>
 
 </template>
@@ -36,6 +37,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import {provide, ref} from 'vue';
+import RtspVideo from './components/RtspVideo.vue';
 
 const router = useRouter();
 

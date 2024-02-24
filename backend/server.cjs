@@ -68,6 +68,7 @@ server.get('/', function(req, res) {
 })
 
 const { exec } = require('child_process');
+const ffmpeg = require("fluent-ffmpeg");
 
 // Функция для получения метаданных видео по его имени
 function getVideoMetadata(videoName, callback) {
@@ -182,6 +183,51 @@ server.get(new RegExp('/database/\\w+/\\w+_\\w+'), (req, res) => {
     }
   });
 });
+
+// Маршрут для передачи потока на HTML страницу
+server.get('/stream', (req, res) => {
+  const ffmpeg = require('fluent-ffmpeg');
+  
+  const rtspStreamUrl = 'rtsp://localhost:8001/stream';
+  
+  const command = ffmpeg(rtspStreamUrl)
+    .inputFormat('rtsp')
+    .outputOptions(['-c:v libvpx', '-b:v 1M', '-deadline realtime', '-an'])
+    .outputFormat('webm');
+  
+  
+  console.log('клиент подключен')
+  // Установка заголовков для передачи видео в формате webm
+  res.setHeader('Content-Type', 'video/webm');
+  res.setHeader('Transfer-Encoding', 'chunked');
+  
+  // Перенаправление вывода ffmpeg напрямую в ответ сервера
+  command.pipe(res, { end: true });
+});
+
+
+/*
+// Маршрут для передачи потока на HTML страницу
+server.get('/screen', (req, res) => {
+  const ffmpeg = require('fluent-ffmpeg');
+  
+  const rtspStreamUrl = 'screen://';
+  
+  const command = ffmpeg(rtspStreamUrl)
+    .inputFormat('screen')
+    .outputOptions(['-c:v libvpx', '-b:v 1M', '-deadline realtime', '-an'])
+    .outputFormat('webm');
+  
+  
+  console.log('клиент подключен')
+  // Установка заголовков для передачи видео в формате webm
+  res.setHeader('Content-Type', 'video/webm');
+  res.setHeader('Transfer-Encoding', 'chunked');
+  
+  // Перенаправление вывода ffmpeg напрямую в ответ сервера
+  command.pipe(res, { end: true });
+});
+*/
 
 
 server.listen(3000, () => {
