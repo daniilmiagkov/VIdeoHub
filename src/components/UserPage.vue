@@ -1,7 +1,7 @@
 <template>
   <div class="user-profile">
     <h1>Личный кабинет пользователя</h1>
-    <div class="profile-info">
+<!--    <div class="profile-info">
       <h2>{{ user.name }}</h2>
       <p><strong>Возраст:</strong> {{ user.age }}</p>
       <p><strong>Email:</strong> {{ user.email }}</p>
@@ -15,12 +15,12 @@
           <p><strong>Описание:</strong> {{ record.description }}</p>
         </li>
       </ul>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
 
 const user = ref({
   name: 'Иван Иванов',
@@ -34,6 +34,9 @@ const medicalHistory = ref([
   { id: 2, date: '15.02.2024', description: 'Анализы крови' },
   { id: 3, date: '20.02.2024', description: 'УЗИ органов брюшной полости' }
 ]);
+onMounted(() => {
+
+})
 </script>
 
 <style scoped lang="scss">

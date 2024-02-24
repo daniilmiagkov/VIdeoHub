@@ -54,10 +54,11 @@ router.beforeEach((to, from, next) => {
     } else {
       const decodedToken = jwtDecode(token);
       const userRole = decodedToken.role;
+      
       if (to.matched.some(record => record.meta.role === userRole || record.meta.role === 'all')) {
         next();
       } else {
-        next({ name: 'Home' }); // Или любой другой маршрут, на который вы хотите перенаправить пользователя
+        next(from); // Или любой другой маршрут, на который вы хотите перенаправить пользователя
       }
     }
   } else {

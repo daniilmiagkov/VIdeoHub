@@ -1,10 +1,6 @@
 <template>
 
   <div class="videos">
-<!--
-    <h1 class="videos__title">Список видео</h1>
--->
-
     <Video
         :src="src"
         class="video_pinned"
@@ -45,6 +41,7 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Video from "./Video.vue";
+import Protected from "./Protected.vue";
 const showVideos = ref(true)
 const typePresentation = ref('table')
 const videos = ref([]);
@@ -115,39 +112,59 @@ onMounted(async () => {
 
 .video__table {
   width: 100%;
-  //border-collapse: collapse;
+  border-collapse: separate;
   resize: horizontal; /* Разрешить изменение размера горизонтально */
   overflow: auto; /* Показывать скрытые области при изменении размера */
   height: 100%;
+  border-spacing: 4px;
 
 }
 
 .video__table th,
 .video__table td {
-  border: 1px solid gray;
   padding: 8px;
   text-align: left;
-  border-radius: 10px;
+  //outline: 1px solid lightgray;
+  //border-right: 1px solid lightgray;
+
 }
 
 td {
-  //border: 1px solid gray;
+  //border-right: 1px solid gray;
+  border-right: 1px solid gray;
   //border-radius: 10px;
+  //border-radius: 20px;
+  border-radius: 20px;
 }
 
-th {
+td:last-child {
+  border: none;
+}
+
+tr {
+  cursor: pointer;
+  border-radius: 20px;
+  outline: 1px solid gray;
   background-color: white;
+  //margin: 10px;
+
+}
+th {
   cursor: pointer;
   resize: horizontal; /* Разрешить изменение размера горизонтально */
   overflow: auto; /* Показывать скрытые области при изменении размера */
-
+  position: sticky;
+  background: white;
+  outline: 3px solid white;
 }
 
 thead {
-  position: sticky;  background-color: white;
-  //top: -1px;
-  top: 0;
+  position: sticky;
+  top: 0px;
   z-index: 1; /* Убеждаемся, что заголовок находится выше содержимого таблицы */
+  height: 40px;
+  //width: 101%;
+  //display: block;
 }
 tbody {
   //top: 36px;
@@ -157,8 +174,9 @@ tbody {
 @media (min-width: 1200px) {
   .videos {
     display: grid;
-    grid-template-columns: minmax(300px, 600px) auto;
+    grid-template-columns: minmax(300px, 1000px) minmax(300px, 100%);
     //grid-template-rows: minmax(300px, 600px) ; /* Устанавливаем размеры строк грида */
+    //grid-template-rows: minmax(300px, 90%);
     gap: 20px;
     z-index: 0;
     overflow: auto;
@@ -169,7 +187,7 @@ tbody {
   .videos {
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: minmax(300px, 600px) auto; /* Устанавливаем размеры строк грида */
+    grid-template-rows: minmax(300px, 1200px) auto; /* Устанавливаем размеры строк грида */
     gap: 20px;
     z-index: 0;
     overflow: auto;
@@ -180,11 +198,11 @@ tbody {
   top: 0; /* Зафиксировать видео в верхней части контейнера */
   z-index: 0; /* Убедитесь, что видео находится выше содержимого таблицы */
   //padding: 20px;
+  max-height: 100%;
 
 }
 
 .video__table-container {
   overflow-y: auto; /* Разрешить вертикальную прокрутку в случае необходимости */
-
 }
 </style>
