@@ -1,9 +1,16 @@
 <template>
-  <h1>Список видео</h1>
 
   <div class="videos">
+<!--
+    <h1 class="videos__title">Список видео</h1>
+-->
 
-    <div >
+    <Video
+        :src="src"
+        class="video_pinned"
+    >
+    </Video>
+    <div class="video__table-container">
       <table id="videos" class="video__table">
         <thead>
         <tr>
@@ -31,11 +38,6 @@
         </tbody>
       </table>
     </div>
-    <Video
-       :src="src"
-    >
-
-    </Video>
   </div>
 </template>
 
@@ -86,12 +88,7 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
-/*.videos {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  column-gap: 20px;
-  row-gap: 40px;
-}*/
+/*
 .toggle-switch {
   width: 60px;
   height: 30px;
@@ -114,33 +111,80 @@ onMounted(async () => {
 .switch-on {
   transform: translateX(30px);
 }
+*/
 
 .video__table {
-  display: table;
   width: 100%;
-  border-collapse: collapse;
+  //border-collapse: collapse;
   resize: horizontal; /* Разрешить изменение размера горизонтально */
   overflow: auto; /* Показывать скрытые области при изменении размера */
+  height: 100%;
+
 }
 
 .video__table th,
 .video__table td {
-  border: 1px solid #ddd;
+  border: 1px solid gray;
   padding: 8px;
   text-align: left;
+  border-radius: 10px;
+}
+
+td {
+  //border: 1px solid gray;
+  //border-radius: 10px;
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: white;
   cursor: pointer;
   resize: horizontal; /* Разрешить изменение размера горизонтально */
   overflow: auto; /* Показывать скрытые области при изменении размера */
+
 }
-.videos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 20px;
-  resize: horizontal; /* Разрешить изменение размера горизонтально */
-  overflow: auto; /* Показывать скрытые области при изменении размера */
+
+thead {
+  position: sticky;  background-color: white;
+  //top: -1px;
+  top: 0;
+  z-index: 1; /* Убеждаемся, что заголовок находится выше содержимого таблицы */
+}
+tbody {
+  //top: 36px;
+}
+
+
+@media (min-width: 1200px) {
+  .videos {
+    display: grid;
+    grid-template-columns: minmax(300px, 600px) auto;
+    //grid-template-rows: minmax(300px, 600px) ; /* Устанавливаем размеры строк грида */
+    gap: 20px;
+    z-index: 0;
+    overflow: auto;
+  }
+}
+
+@media (max-width: 1199px) {
+  .videos {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: minmax(300px, 600px) auto; /* Устанавливаем размеры строк грида */
+    gap: 20px;
+    z-index: 0;
+    overflow: auto;
+  }
+}
+.video_pinned {
+  position: sticky;
+  top: 0; /* Зафиксировать видео в верхней части контейнера */
+  z-index: 0; /* Убедитесь, что видео находится выше содержимого таблицы */
+  //padding: 20px;
+
+}
+
+.video__table-container {
+  overflow-y: auto; /* Разрешить вертикальную прокрутку в случае необходимости */
+
 }
 </style>

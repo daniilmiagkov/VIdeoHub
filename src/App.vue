@@ -1,10 +1,12 @@
 <template>
-  <div id="app">
-    <RtspVideo></RtspVideo>
-<!--    <header class="header">
-      <button class="button button-visible menu header__button" @click="toggleMenu">
+  <div id="app" class="app">
+    <header class="header">
+      <button class="button button-visible menu header__button"
+              @mouseover="toggleMenu(true)"
+              @mouseout="toggleMenu(false)">
         Меню
-        <nav class="sidebar" :class="{ 'sidebar&#45;&#45;open': isMenuOpen }" ref="sidebar">
+        <nav class="sidebar" :class="{ 'sidebar--open': isMenuOpen }" ref="sidebar"  @mouseover="toggleMenu(true)"
+             @mouseout="toggleMenu(false)">
           <ul class="sidebar__menu">
             <li><router-link to="/">Главная</router-link></li>
             <li v-if="isAuthenticated"><router-link to="/user">Пользователь</router-link></li>
@@ -16,7 +18,7 @@
       </button>
       <h1 class="header__title">ООО «ХайРус»</h1>
       <button v-if="!isAuthenticated" class="button button-visible header__button" @click="router.push('/auth')">Вход</button>
-      <button v-if="isAuthenticated" class="button button-visible header__button" @click="logout">Выход</button> &lt;!&ndash; Кнопка для выхода &ndash;&gt;
+      <button v-if="isAuthenticated" class="button button-visible header__button" @click="logout">Выход</button> <!-- Кнопка для выхода -->
 
     </header>
     <router-view class="main"/>
@@ -27,9 +29,9 @@
           <li>E-mail: info@hirus.life</li>
           <li>Сайт: <a href="https://hirus.life/" target="_blank">hirus.life</a></li>
         </ul>
-        &lt;!&ndash; Здесь может быть код для кнопок "Поделиться" в социальных сетях &ndash;&gt;
+        <!-- Здесь может быть код для кнопок "Поделиться" в социальных сетях -->
       </div>
-    </footer>-->
+    </footer>
   </div>
 
 </template>
@@ -37,7 +39,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import {provide, ref} from 'vue';
-import RtspVideo from './components/RtspVideo.vue';
 
 const router = useRouter();
 
@@ -47,8 +48,8 @@ provide('isAuthenticated', isAuthenticated);
 
 const isMenuOpen = ref(false);
 
-const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value;
+const toggleMenu = (value) => {
+  isMenuOpen.value = value
 };
 
 const logout = () => {
@@ -60,11 +61,10 @@ const logout = () => {
 
 <style lang="scss">
 @import "./css/style.css";
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.app {
   text-align: center;
   height: 100vh;
+  //height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -72,13 +72,16 @@ const logout = () => {
 .sidebar {
   font-size: 14px;
   color: black;
+  background-color: white;
   position: absolute;
   margin-left: -20px;
-  margin-top: 20px;
+  margin-top:  10px;
   width: 120px;
   text-align: center;
   transform: translateX(-200%);
   transition: transform 0.3s ease-in-out;
+  border-radius: 10px;
+  z-index: 1;
 }
 
 .sidebar--open {
@@ -91,7 +94,7 @@ const logout = () => {
 }
 
 .sidebar__menu li {
-
+  margin-top: 10px;
 }
 
 .sidebar__menu a:hover {
@@ -115,7 +118,7 @@ const logout = () => {
 }
 
 .header {
-  height: 80px;
+  height: 70px;
   display: flex;
   flex-direction: row;
   margin: 0 auto;
@@ -123,6 +126,7 @@ const logout = () => {
   align-items: center;
   justify-content: space-between;
   width: 90%;
+  flex-shrink: 0;
 }
 
 .header__title {
@@ -143,6 +147,9 @@ const logout = () => {
 .footer {
   padding: 20px 0;
   text-align: center;
+  bottom: 0;
+  flex-shrink: 0;
+
 }
 
 a {
@@ -161,6 +168,8 @@ a {
 }
 
 .main {
-  height: 100%;
+  //height: 100%;
+  margin: 0 20px;
+  flex-grow: 1;
 }
 </style>

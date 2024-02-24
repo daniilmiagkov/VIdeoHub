@@ -1,13 +1,13 @@
 <template>
   <div class="video">
-    <h3>{{ props.src }}</h3>
-    <div class="video__container">
-      <video
-          class="video__video"
-          v-show="true" id="video" controls loading="lazy" volume="0.5" :key="_src">
-        <source :src="_src" type="video/mp4">
-      </video>
-    </div>
+    <video
+        class="video__video"
+        v-show="true" id="video" controls loading="lazy" volume="0.5" :key="_src">
+      <source :src="_src" type="video/mp4">
+
+    </video>
+    <h3 class="video__title">{{ props.src }}</h3>
+
   </div>
 </template>
 
@@ -95,22 +95,33 @@ onMounted(() => {
 <style scoped lang="scss">
 .video {
   width: 100%;
-  border-radius: 20px;
+
+  //border-radius: 20px;
 }
 
-.video__video {
-  width: 100%;
-  //height: 100%;
-  border-radius: 18px;
+.video__title {
+  font-weight: normal;
+  font-size: 14px;
+  margin: 10px auto;
 }
 
-.video__container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  //height: 100%;
+@media (min-width:1199px) {
+  .video__video {
+    //width: 100%;
+    max-width: 100%;
+    //height: 96%;
+    border-radius: 10px;
+  }
+}
+
+
+@media (max-width: 1200px) {
+  .video__video {
+    //width: 100%;
+    max-width: 100%;
+    height: 96%;
+    border-radius: 10px;
+  }
 }
 
 .video__canvas {

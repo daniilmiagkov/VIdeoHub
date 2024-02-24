@@ -205,31 +205,6 @@ server.get('/stream', (req, res) => {
   command.pipe(res, { end: true });
 });
 
-
-/*
-// Маршрут для передачи потока на HTML страницу
-server.get('/screen', (req, res) => {
-  const ffmpeg = require('fluent-ffmpeg');
-  
-  const rtspStreamUrl = 'screen://';
-  
-  const command = ffmpeg(rtspStreamUrl)
-    .inputFormat('screen')
-    .outputOptions(['-c:v libvpx', '-b:v 1M', '-deadline realtime', '-an'])
-    .outputFormat('webm');
-  
-  
-  console.log('клиент подключен')
-  // Установка заголовков для передачи видео в формате webm
-  res.setHeader('Content-Type', 'video/webm');
-  res.setHeader('Transfer-Encoding', 'chunked');
-  
-  // Перенаправление вывода ffmpeg напрямую в ответ сервера
-  command.pipe(res, { end: true });
-});
-*/
-
-
 server.listen(3000, () => {
   console.log('listening on port http://localhost:3000')
 })
