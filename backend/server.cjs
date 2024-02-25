@@ -186,24 +186,32 @@ server.get(new RegExp('/database/\\w+/\\w+_\\w+'), (req, res) => {
 
 // Маршрут для передачи потока на HTML страницу
 server.get('/stream', (req, res) => {
-  const ffmpeg = require('fluent-ffmpeg');
-  
-  const rtspStreamUrl = 'rtsp://localhost:8001/stream';
-  
-  const command = ffmpeg(rtspStreamUrl)
-    .inputFormat('rtsp')
-    .outputOptions(['-c:v libvpx', '-b:v 1M', '-deadline realtime', '-an'])
-    .outputFormat('webm');
-  
-  
-  console.log('клиент подключен')
-  // Установка заголовков для передачи видео в формате webm
-  res.setHeader('Content-Type', 'video/webm');
-  res.setHeader('Transfer-Encoding', 'chunked');
-  
-  // Перенаправление вывода ffmpeg напрямую в ответ сервера
-  command.pipe(res, { end: true });
+  try {
+    const rtspStreamUrl = 'rtsp://localhost:8001/stream';
+    const command = ffmpeg(rtspStreamUrl)
+      .inputFormat('rtsp')
+      .outputOptions(['-c:v libvpx', '-b:v 1M', '-deadline realtime', '-an'])
+      .outputFormat('webm');
+    
+    console.log('Клиент подключен');
+    
+    // Установка заголовков для передачи видео в формате webm
+    res.setHeader('Content-Type', 'video/webm');
+    res.setHeader('Transfer-Encoding', 'chunked');
+    
+    // Перенаправление вывода ffmpeg напрямую в ответ сервера
+    command.on('error', (err) => {
+      console.error('Произошла ошибка при трансляции видео:', err);
+      res.status(500).send('Произошла ошибка при трансляции видео');
+    });
+    
+    command.pipe(res, { end: true });
+  } catch (err) {
+    console.error('Произошла ошибка при трансляции видео:', err);
+    res.status(500).send('Произошла ошибка при трансляции видео');
+  }
 });
+
 
 server.listen(3000, () => {
   console.log('listening on port http://localhost:3000')

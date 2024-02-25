@@ -3,7 +3,7 @@
     <video
         class="video__video"
         v-show="true" id="video" controls loading="lazy" volume="0.5" :key="_src">
-      <source :src="_src" type="video/mp4">
+      <source :src="_src" :type="props.type">
 
     </video>
     <h3 class="video__title">{{ props.src }}</h3>
@@ -22,7 +22,8 @@ let canvas = document.createElement('canvas');
 const props = defineProps({
   src: String,
   showVideo: Boolean,
-  typePresentation: String
+  typePresentation: String,
+  type: String,
 });
 function changePlay() {
   if (play.value) {
@@ -41,7 +42,7 @@ watch(() => props.src, () => {
   /*
     video.pause();
   */
-  _src.value = `http://localhost:3000/videos/${props.src}`
+  _src.value = props.src
 })
 onMounted(() => {
   // video = document.getElementById("video") as HTMLVideoElement;
@@ -95,6 +96,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .video {
   width: 100%;
+  max-height: 100%;
 
   //border-radius: 20px;
 }
@@ -109,7 +111,11 @@ onMounted(() => {
   .video__video {
     //width: 100%;
     max-width: 100%;
-    //height: 96%;
+    //max-height: 100%;
+    //aspect-ratio: 2;
+    //max-height:;
+    max-height: calc(200% - 40px);
+
     border-radius: 10px;
   }
 }
@@ -118,8 +124,9 @@ onMounted(() => {
 @media (max-width: 1499px) {
   .video__video {
     //width: 100%;
-    max-width: 100%;
-    max-height: 96%;
+    //max-width: 100%;
+    max-height: calc(100% - 40px);
+    //aspect-ratio: 16/9;
     border-radius: 10px;
   }
 }

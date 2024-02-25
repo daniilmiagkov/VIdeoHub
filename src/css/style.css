@@ -19,6 +19,8 @@ body {
 }
 
 *{
+  font-family: "Montserrat", sans-serif;
+
   box-sizing: border-box;
   border: none;
   margin: 0;

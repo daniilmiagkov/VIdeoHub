@@ -3,10 +3,12 @@
   <div class="videos">
     <Video
         :src="src"
+        :type="'video/mp4'"
         class="video_pinned"
     >
     </Video>
     <div class="video__table-container">
+
       <table id="videos" class="video__table">
         <thead>
         <tr>
@@ -22,7 +24,7 @@
         <tr
             v-for="video in videos"
             :key="video.format.filename"
-            @click="src = video.name"
+            @click="src = `http://localhost:3000/videos/${video.name}`"
         >
           <td>{{ video.name }}</td>
           <td>{{ video.streams[0].width }}</td> <!-- Исправлено здесь -->
@@ -84,38 +86,19 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
-/*
-.toggle-switch {
-  width: 60px;
-  height: 30px;
-  background-color: #ccc;
-  border-radius: 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: 5px;
-}
-
-.switch {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: white;
-  transition: all 0.3s ease;
-}
-
-.switch-on {
-  transform: translateX(30px);
-}
-*/
-
 .video__table {
   width: 100%;
   border-collapse: separate;
-  resize: horizontal; /* Разрешить изменение размера горизонтально */
-  overflow: auto; /* Показывать скрытые области при изменении размера */
+  //resize: horizontal; /* Разрешить изменение размера горизонтально */
   height: 100%;
   border-spacing: 8px;
+}
+.video__table-container {
+  //overflow-y: auto; /* Разрешить вертикальную прокрутку в случае необходимости */
+  flex-grow: 10;
+  flex-shrink: 0;
+  height: 100%;
+  overflow: auto; /* Показывать скрытые области при изменении размера */
 
 }
 
@@ -123,23 +106,18 @@ onMounted(async () => {
 .video__table td {
   padding: 4px 12px 4px 8px;
   text-align: left;
-  //outline: 1px solid lightgray;
-  //border-right: 1px solid lightgray;
 
 }
-
-td {
+td, th {
   //border-right: 1px solid gray;
   border-right: 1px solid gray;
   //border-radius: 10px;
   //border-radius: 20px;
   border-radius: 20px;
 }
-
 td:last-child {
   border: none;
 }
-
 tr {
   cursor: pointer;
   border-radius: 20px;
@@ -150,31 +128,28 @@ tr {
 }
 th {
   cursor: pointer;
-  resize: horizontal; /* Разрешить изменение размера горизонтально */
-  overflow: auto; /* Показывать скрытые области при изменении размера */
-  position: sticky;
+  //resize: horizontal; /* Разрешить изменение размера горизонтально */
+  //overflow: auto; /* Показывать скрытые области при изменении размера */
   background: white;
   outline: 5px solid white;
 }
-
 thead {
   position: sticky;
   top: 0px;
-  z-index: 1; /* Убеждаемся, что заголовок находится выше содержимого таблицы */
-  height: 40px;
+  z-index: 1;
   //width: 101%;
   //display: block;
 }
 tbody {
   //top: 36px;
+
 }
 
-
-@media (min-width: 1500px) {
+/*@media (min-width: 1500px) {
   .videos {
     display: grid;
     grid-template-columns: minmax(300px, 1000px) minmax(300px, 100%);
-    //grid-template-rows: minmax(300px, 600px) ; /* Устанавливаем размеры строк грида */
+    //grid-template-rows: minmax(300px, 600px) ; !* Устанавливаем размеры строк грида *!
     //grid-template-rows: minmax(300px, 90%);
     gap: 20px;
     z-index: 0;
@@ -185,22 +160,39 @@ tbody {
 @media (max-width: 1499px) {
   .videos {
     display: grid;
-    grid-template-rows: minmax(400px, 70%) 2fr; /* Устанавливаем размеры строк грида */
+    grid-template-rows: minmax(400px, 70%) 2fr; !* Устанавливаем размеры строк грида *!
     gap: 20px;
     z-index: 0;
     overflow: auto;
   }
+}*/
+@media (min-width: 1500px) {
+  .videos {
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+
+
+  }
+}
+
+@media (max-width: 1499px) {
+  .videos {
+    display: flex;
+flex-direction: column;
+    overflow: auto;
+
+  }
 }
 .video_pinned {
   position: sticky;
-  top: 0; /* Зафиксировать видео в верхней части контейнера */
-  z-index: 0; /* Убедитесь, что видео находится выше содержимого таблицы */
+  top: 0px;
+  z-index: 1;
   //padding: 20px;
-  //max-height: 100%;
-
+  max-height: 50%;
+  flex-grow: 0;
+  flex-shrink: 10;
 }
 
-.video__table-container {
-  overflow-y: auto; /* Разрешить вертикальную прокрутку в случае необходимости */
-}
+
 </style>

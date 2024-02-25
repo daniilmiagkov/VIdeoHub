@@ -56,7 +56,7 @@ const logout = () => {
   //height: 100%;
   display: flex;
   flex-direction: column;
-  min-width: 800px;
+  //min-width: 800px;
 
 }
 a {
@@ -74,7 +74,7 @@ a {
   transform: translateX(-200%);
   transition: transform 0.3s ease-in-out;
   border-radius: 10px;
-  z-index: 1;
+  z-index: 3;
 }
 
 .sidebar--open {
