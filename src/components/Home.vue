@@ -9,6 +9,16 @@
       </section>
     </main>
   </div>
+  <footer class="footer">
+    <div class="footer-content">
+      <ul class="contact-info">
+        <li>Телефон: +79375740016</li>
+        <li>E-mail: info@hirus.life</li>
+        <li>Сайт: <a href="https://hirus.life/" target="_blank">hirus.life</a></li>
+      </ul>
+      <!-- Здесь может быть код для кнопок "Поделиться" в социальных сетях -->
+    </div>
+  </footer>
 </template>
 
 <script setup lang="ts">
@@ -18,7 +28,7 @@
 
 <style scoped lang="scss">
 .main-page {
-  //height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -42,5 +52,29 @@
   margin-bottom: 20px;
   font-weight: normal;
 }
+.footer {
+  padding: 20px 0;
+  text-align: center;
+  bottom: 0;
+  flex-shrink: 0;
+
+}
+.footer-content {
+  font-size: 14px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+a {
+  color: black;
+}
+.contact-info {
+  list-style-type: none;
+  padding: 0;
+}
+
+.contact-info li {
+  margin-bottom: 5px;
+}
+
 
 </style>

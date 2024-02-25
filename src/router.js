@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from './components/Home.vue';
 import UserPage from './components/UserPage.vue';
 import AdminPage from './components/AdminPage.vue';
-import Protected from './components/Protected.vue';
 import Videos from './components/Videos.vue';
 import { jwtDecode } from 'jwt-decode';
 import AuthPage from "./components/AuthPage.vue";

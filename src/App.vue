@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="app">
+  <div class="app">
     <header class="header">
       <button class="button button-visible menu header__button"
               @mouseover="toggleMenu(true)"
@@ -22,16 +22,6 @@
 
     </header>
     <router-view class="main"/>
-    <footer class="footer">
-      <div class="footer-content">
-        <ul class="contact-info">
-          <li>Телефон: +79375740016</li>
-          <li>E-mail: info@hirus.life</li>
-          <li>Сайт: <a href="https://hirus.life/" target="_blank">hirus.life</a></li>
-        </ul>
-        <!-- Здесь может быть код для кнопок "Поделиться" в социальных сетях -->
-      </div>
-    </footer>
   </div>
 
 </template>
@@ -59,15 +49,19 @@ const logout = () => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .app {
   text-align: center;
   height: 100vh;
   //height: 100%;
   display: flex;
   flex-direction: column;
-}
+  min-width: 800px;
 
+}
+a {
+  color: black;
+}
 .sidebar {
   font-size: 14px;
   color: black;
@@ -133,34 +127,6 @@ const logout = () => {
   font-weight: 400;
   text-transform: uppercase;
 }
-
-.contact-info {
-  list-style-type: none;
-  padding: 0;
-}
-
-.contact-info li {
-  margin-bottom: 5px;
-}
-
-.footer {
-  padding: 20px 0;
-  text-align: center;
-  bottom: 0;
-  flex-shrink: 0;
-
-}
-
-a {
-  color: black;
-}
-
-.footer-content {
-  font-size: 14px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 .main {
   //height: 100%;
   margin: 0 20px;

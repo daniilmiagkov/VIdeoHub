@@ -41,7 +41,6 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Video from "./Video.vue";
-import Protected from "./Protected.vue";
 const showVideos = ref(true)
 const typePresentation = ref('table')
 const videos = ref([]);
@@ -186,11 +185,10 @@ tbody {
 @media (max-width: 1499px) {
   .videos {
     display: grid;
-    grid-template-rows: minmax(400px, 800px) 2fr; /* Устанавливаем размеры строк грида */
+    grid-template-rows: minmax(400px, 70%) 2fr; /* Устанавливаем размеры строк грида */
     gap: 20px;
     z-index: 0;
     overflow: auto;
-    min-width: 800px;
   }
 }
 .video_pinned {

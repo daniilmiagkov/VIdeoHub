@@ -46,12 +46,12 @@ server.post('/api/logout', (req, res) => {
 
 // Роут для аутентификации пользователя и создания токена JWT
 server.post('/api/login', (req, res) => {
-  console.log(users)
   const { username, password } = req.body;
   const user = users.find(u => u.username === username && u.password === password);
   if (user) {
     const token = jwt.sign({ username: user.username, role: user.role }, secretKey, { expiresIn: '1h' });
     user.token = token;
+    console.log(user);
     res.json({ token });
   } else {
     res.status(401).json({ message: 'Invalid username or password' });
@@ -115,7 +115,7 @@ server.get('/videos', (req, res) => {
   })
 })
 
-server.get('/api/user/:userId', (req, res) => {
+server.get('/user/:userId', (req, res) => {
   const userId = req.params.userId;
   // Здесь вам нужно выполнить запрос к вашей базе данных для получения данных пользователя по его ID
   // Пример: выполнение запроса к базе данных и получение данных пользователя

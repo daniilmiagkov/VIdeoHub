@@ -4,28 +4,30 @@ class User {
   password;
   role;
   age;
-  constructor(username, password, role, age) {
+  firstname;
+  lastname;
+  constructor(username, password, role, age, firstname, lastname) {
     this.username = username;
     this.password = password;
     this.role = role;
     this.age = age;
+    this.firstname = firstname;
+    this.lastname = lastname;
   }
-
+  write() {
+    fs.writeFile('..' + `/users/${this.username}.json`, JSON.stringify(this), (err) => {
+      if (err) {
+        console.log(err)
+      }
+      else {
+        console.log(this.username + " written");
+      }
+    })
+  }
 }
 
-function writeUser(username, password, role,age) {
-  fs.writeFile('..' + `/users/${username}.json`, JSON.stringify(
-    new User(username, password, role, age)), (err) => {
-    if (err) {
-      console.log(err)
-    }
-    else {
-      console.log(username + " written");
-    }
-  })
-}
 
-writeUser('1', '1', 'user', '20')
-writeUser('admin', 'admin', 'admin', '40')
+new User('1', '1', 'user', '20', "Даниил", "Мягков").write()
+new User('admin', 'admin', 'admin', '40', "Анатолий", "Иванов").write()
 
 
