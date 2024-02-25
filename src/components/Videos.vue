@@ -155,7 +155,7 @@ th {
   overflow: auto; /* Показывать скрытые области при изменении размера */
   position: sticky;
   background: white;
-  outline: 3px solid white;
+  outline: 5px solid white;
 }
 
 thead {
@@ -186,10 +186,11 @@ tbody {
 @media (max-width: 1499px) {
   .videos {
     display: grid;
-    grid-template-rows: minmax(100px, 1500px) ; /* Устанавливаем размеры строк грида */
+    grid-template-rows: minmax(400px, 800px) 2fr; /* Устанавливаем размеры строк грида */
     gap: 20px;
     z-index: 0;
     overflow: auto;
+    min-width: 800px;
   }
 }
 .video_pinned {
