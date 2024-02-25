@@ -38,4 +38,9 @@
   text-align: justify;
 }
 
+.title {
+  margin-bottom: 20px;
+  font-weight: normal;
+}
+
 </style>

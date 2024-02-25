@@ -59,8 +59,7 @@ const logout = () => {
 };
 </script>
 
-<style lang="scss">
-@import "./css/style.css";
+<style lang="scss" scoped>
 .app {
   text-align: center;
   height: 100vh;
@@ -154,11 +153,6 @@ const logout = () => {
 
 a {
   color: black;
-}
-
-.title {
-  margin-bottom: 20px;
-  font-weight: normal;
 }
 
 .footer-content {

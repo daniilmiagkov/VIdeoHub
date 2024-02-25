@@ -105,7 +105,7 @@ onMounted(() => {
   margin: 10px auto;
 }
 
-@media (min-width:1200px) {
+@media (min-width:1500px) {
   .video__video {
     //width: 100%;
     max-width: 100%;
@@ -115,11 +115,11 @@ onMounted(() => {
 }
 
 
-@media (max-width: 1199px) {
+@media (max-width: 1499px) {
   .video__video {
     //width: 100%;
     max-width: 100%;
-    height: 96%;
+    max-height: 96%;
     border-radius: 10px;
   }
 }

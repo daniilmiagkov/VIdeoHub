@@ -116,13 +116,13 @@ onMounted(async () => {
   resize: horizontal; /* Разрешить изменение размера горизонтально */
   overflow: auto; /* Показывать скрытые области при изменении размера */
   height: 100%;
-  border-spacing: 4px;
+  border-spacing: 8px;
 
 }
 
 .video__table th,
 .video__table td {
-  padding: 8px;
+  padding: 4px 12px 4px 8px;
   text-align: left;
   //outline: 1px solid lightgray;
   //border-right: 1px solid lightgray;
@@ -171,7 +171,7 @@ tbody {
 }
 
 
-@media (min-width: 1200px) {
+@media (min-width: 1500px) {
   .videos {
     display: grid;
     grid-template-columns: minmax(300px, 1000px) minmax(300px, 100%);
@@ -183,11 +183,10 @@ tbody {
   }
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1499px) {
   .videos {
     display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: minmax(300px, 1200px) auto; /* Устанавливаем размеры строк грида */
+    grid-template-rows: minmax(100px, 1500px) ; /* Устанавливаем размеры строк грида */
     gap: 20px;
     z-index: 0;
     overflow: auto;
@@ -198,7 +197,7 @@ tbody {
   top: 0; /* Зафиксировать видео в верхней части контейнера */
   z-index: 0; /* Убедитесь, что видео находится выше содержимого таблицы */
   //padding: 20px;
-  max-height: 100%;
+  //max-height: 100%;
 
 }
 
