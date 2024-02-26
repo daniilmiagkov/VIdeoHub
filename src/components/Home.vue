@@ -12,9 +12,9 @@
   <footer class="footer">
     <div class="footer-content">
       <ul class="contact-info">
-        <li>Телефон: +79375740016</li>
-        <li>E-mail: info@hirus.life</li>
-        <li>Сайт: <a href="https://hirus.life/" target="_blank">hirus.life</a></li>
+        <li>Телефон: </li>
+        <li>E-mail:</li>
+        <li>Сайт: </li>
       </ul>
       <!-- Здесь может быть код для кнопок "Поделиться" в социальных сетях -->
     </div>

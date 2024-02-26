@@ -4,6 +4,6 @@
     "tsc": "tsc --watch"
   },
   "dependencies": {
-    "node-rtsp-stream": "^0.0.9"
+    "jsonwebtoken": "^9.0.2"
   }
 }

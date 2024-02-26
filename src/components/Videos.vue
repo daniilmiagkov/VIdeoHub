@@ -26,7 +26,7 @@
               v-for="(video,index) in videos"
               :key="video.format.filename"
               @click="src = `http://localhost:3000/videos/${video.name}`"
-              :style="{ 'transition-delay': `${index * 0.05}s` }"
+              :style="{ 'transition': `transform ${index * 0.05}s` }"
               class='list__title-element'
 
           >

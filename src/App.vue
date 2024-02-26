@@ -16,7 +16,7 @@
           </ul>
         </nav>
       </button>
-      <h1 class="header__title">ООО «ХайРус»</h1>
+      <h1 class="header__title"></h1>
       <button v-if="!isAuthenticated" class="button button-visible header__button" @click="router.push('/auth')">Вход</button>
       <button v-if="isAuthenticated" class="button button-visible header__button" @click="logout">Выход</button> <!-- Кнопка для выхода -->
 
@@ -57,7 +57,7 @@ const logout = () => {
   display: flex;
   flex-direction: column;
   //min-width: 800px;
-
+  background-color: white;
 }
 a {
   color: black;

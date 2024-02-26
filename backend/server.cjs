@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const secretKey = "secretkey";
 const cors = require('cors');
-
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   // req.header('Access-Control-Allow-Origin', '*');
@@ -169,6 +168,8 @@ server.get(new RegExp('/videos/\\w+'), (req, res) => {
 // Маршрут для передачи потока на HTML страницу
 server.get('/stream', (req, res) => {
   try {
+    const ffmpeg = require('fluent-ffmpeg')
+  
     const rtspStreamUrl = 'rtsp://localhost:8001/stream';
     const command = ffmpeg(rtspStreamUrl)
       .inputFormat('rtsp')
@@ -186,7 +187,11 @@ server.get('/stream', (req, res) => {
       console.error('Произошла ошибка при трансляции видео:', err);
       res.status(500).send('Произошла ошибка при трансляции видео');
     });
-    
+  
+    // Обработчик события прогресса
+    command.on('progress', (progress) => {
+      console.log('Прогресс выполнения:', progress);
+    });
     command.pipe(res, { end: true });
   } catch (err) {
     console.error('Произошла ошибка при трансляции видео:', err);
