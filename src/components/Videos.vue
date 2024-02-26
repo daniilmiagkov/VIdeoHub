@@ -21,18 +21,23 @@
         </tr>
         </thead>
         <tbody>
-        <tr
-            v-for="video in videos"
-            :key="video.format.filename"
-            @click="src = `http://localhost:3000/videos/${video.name}`"
-        >
-          <td>{{ video.name }}</td>
-          <td>{{ video.streams[0].width }}</td> <!-- Исправлено здесь -->
-          <td>{{ video.streams[0].height }}</td> <!-- Исправлено здесь -->
-          <td>{{ (video.format.size  / (1024 * 1024)).toFixed(2) }}</td> <!-- Добавлено здесь -->
-          <td>{{ (+video.format.duration).toFixed(2) }}</td> <!-- Добавлено здесь -->
-          <!-- Добавьте другие ячейки таблицы, если необходимо -->
-        </tr>
+        <transition-group name="main-grid">
+          <tr
+              v-for="(video,index) in videos"
+              :key="video.format.filename"
+              @click="src = `http://localhost:3000/videos/${video.name}`"
+              :style="{ 'transition-delay': `${index * 0.05}s` }"
+              class='list__title-element'
+
+          >
+            <td>{{ video.name }}</td>
+            <td>{{ video.streams[0].width }}</td> <!-- Исправлено здесь -->
+            <td>{{ video.streams[0].height }}</td> <!-- Исправлено здесь -->
+            <td>{{ (video.format.size  / (1024 * 1024)).toFixed(2) }}</td> <!-- Добавлено здесь -->
+            <td>{{ (+video.format.duration).toFixed(2) }}</td> <!-- Добавлено здесь -->
+            <!-- Добавьте другие ячейки таблицы, если необходимо -->
+          </tr>
+        </transition-group>
         </tbody>
       </table>
     </div>
@@ -86,86 +91,80 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
+.video__table-container {
+  flex-grow: 10;
+  flex-shrink: 0;
+  height: 100%; /* Установите высоту контейнера таблицы */
+  position: sticky;
+  top: 0;
+  overflow: scroll; /* Показывать скрытые области при прокрутке */
+}
+.main-grid-enter-active,
+.main-grid-leave-active {
+  transition: 0.5s ease;
+  transition-property: opacity, transform;
+}
+.main-grid-enter-from,
+.main-grid-leave-to {
+  opacity: 0;
+  transform: translateY(100%);
+}
 .video__table {
   width: 100%;
   border-collapse: separate;
-  //resize: horizontal; /* Разрешить изменение размера горизонтально */
-  height: 100%;
-  border-spacing: 8px;
-}
-.video__table-container {
-  //overflow-y: auto; /* Разрешить вертикальную прокрутку в случае необходимости */
-  flex-grow: 10;
-  flex-shrink: 0;
-  height: 100%;
-  overflow: auto; /* Показывать скрытые области при изменении размера */
-
+  border-spacing: 0;
+  //overflow: hidden;
+  //table-layout: fixed; /* Фиксированная ширина столбцов для предотвращения изменения ширины при прокрутке */
 }
 
 .video__table th,
 .video__table td {
-  padding: 4px 12px 4px 8px;
+  padding: 8px; /* Измените отступы ячеек по вашему усмотрению */
   text-align: left;
+}
 
+thead {
+  position: sticky;
+  top: 0; /* Закрепите заголовок таблицы наверху */
+  z-index: 1;
+  background-color: #fff; /* Добавьте фон для заголовка таблицы */
+  border-bottom: 10px solid gray; /* Добавьте нижние границы для ячеек */
 }
-td, th {
-  //border-right: 1px solid gray;
-  border-right: 1px solid gray;
-  //border-radius: 10px;
-  //border-radius: 20px;
-  border-radius: 20px;
+
+tbody {
+  max-height: calc(100vh - 150px); /* Установите максимальную высоту для tbody, чтобы она не расширялась за пределы экрана */
 }
-td:last-child {
-  border: none;
-}
+
 tr {
   cursor: pointer;
   border-radius: 20px;
-  outline: 1px solid gray;
+  //outline: 1px solid gray;
   background-color: white;
-  //margin: 10px;
+}
 
+tr:hover {
+  background-color: lightgray;
 }
 th {
   cursor: pointer;
-  //resize: horizontal; /* Разрешить изменение размера горизонтально */
-  //overflow: auto; /* Показывать скрытые области при изменении размера */
   background: white;
-  outline: 5px solid white;
+  //outline: 5px solid white;
 }
-thead {
-  position: sticky;
-  top: 0px;
-  z-index: 1;
-  //width: 101%;
-  //display: block;
-}
-tbody {
-  //top: 36px;
+
+td {
 
 }
 
-/*@media (min-width: 1500px) {
-  .videos {
-    display: grid;
-    grid-template-columns: minmax(300px, 1000px) minmax(300px, 100%);
-    //grid-template-rows: minmax(300px, 600px) ; !* Устанавливаем размеры строк грида *!
-    //grid-template-rows: minmax(300px, 90%);
-    gap: 20px;
-    z-index: 0;
-    overflow: auto;
-  }
+td, th {
+  border-right: 1px solid gray;
+  border-bottom: 1px solid gray; /* Добавьте нижние границы для ячеек */
+
 }
 
-@media (max-width: 1499px) {
-  .videos {
-    display: grid;
-    grid-template-rows: minmax(400px, 70%) 2fr; !* Устанавливаем размеры строк грида *!
-    gap: 20px;
-    z-index: 0;
-    overflow: auto;
-  }
-}*/
+td:last-child, th:last-child {
+  border-right: none; /* Уберите правую границу для последней ячейки */
+}
+
 @media (min-width: 1500px) {
   .videos {
     display: flex;
@@ -180,7 +179,7 @@ tbody {
   .videos {
     display: flex;
 flex-direction: column;
-    overflow: auto;
+    overflow: hidden;
 
   }
 }
@@ -192,6 +191,7 @@ flex-direction: column;
   max-height: 50%;
   flex-grow: 0;
   flex-shrink: 10;
+  margin-right: 20px;
 }
 
 

@@ -110,7 +110,8 @@ th {
 .admin__video {
   //height: 500px;
   height: 100%;
-  max-width: 100%;
+  max-width: 90%;
   grid-column: span 2;
+  border-radius: 10px;
 }
 </style>
